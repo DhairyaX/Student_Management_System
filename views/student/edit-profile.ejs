@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - Student</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 100px auto 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .profile-header h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+        .form-section h2 {
+            color: #2d3748;
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4a5568;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4a5568;
+        }
+        .form-group input:disabled {
+            background-color: #f7fafc;
+            cursor: not-allowed;
+            color: #a0aec0;
+        }
+        .locked-field {
+            position: relative;
+        }
+        .locked-field::after {
+            content: '\f023';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-save {
+            background: #4a5568;
+            color: white;
+        }
+        .btn-save:hover {
+            background: #2d3748;
+        }
+        .btn-cancel {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        .btn-cancel:hover {
+            background: #cbd5e0;
+        }
+        .info-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>StudentHub</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/student/dashboard">Home</a></li>
+                <li><a href="/student/profile" class="active">Profile</a></li>
+                <li><a href="/student/marks">Marks</a></li>
+                <li><a href="/student/attendance">Attendance</a></li>
+            </ul>
+            <div class="nav-user">
+                <a href="/logout" class="logout-btn" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+                <i class="fas fa-bell"></i>
+                <% if (student && student.profilepicture) { %>
+                    <img src="<%= student.profilepicture %>" alt="User Avatar" class="user-avatar">
+                <% } else { %>
+                    <img src="/images/default-avatar.jpg" alt="User Avatar" class="user-avatar">
+                <% } %>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1><i class="fas fa-user-edit"></i> Edit Profile</h1>
+            <p>Update your personal information</p>
+        </div>
+
+        <div class="info-note">
+            <i class="fas fa-info-circle"></i> Fields with <i class="fas fa-lock"></i> cannot be edited. Contact admin to change these details.
+        </div>
+
+        <form action="/student/update-profile" method="POST" enctype="multipart/form-data">
+            <!-- Personal Information (Read-Only) -->
+            <div class="form-section">
+                <h2>Account Information (Cannot be changed)</h2>
+                <div class="form-grid">
+                    <div class="form-group locked-field">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" value="<%= student.name || '' %>" disabled>
+                    </div>
+                    <div class="form-group locked-field">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" value="<%= student.email || '' %>" disabled>
+                    </div>
+                    <div class="form-group locked-field">
+                        <label for="rollnumber">Roll Number</label>
+                        <input type="text" id="rollnumber" value="<%= student.rollnumber || '' %>" disabled>
+                    </div>
+                    <div class="form-group locked-field">
+                        <label for="course">Course</label>
+                        <input type="text" id="course" value="<%= student.course || '' %>" disabled>
+                    </div>
+                    <div class="form-group locked-field">
+                        <label for="semester">Semester</label>
+                        <input type="text" id="semester" value="<%= student.semester || '' %>" disabled>
+                    </div>
+                    <div class="form-group locked-field">
+                        <label for="section">Section</label>
+                        <input type="text" id="section" value="<%= student.section || '' %>" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editable Personal Information -->
+            <div class="form-section">
+                <h2>Personal Details (You can edit these)</h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="profilepicture">Profile Picture</label>
+                        <input type="file" id="profilepicture" name="profilepicture" accept="image/*">
+                        <small style="color: #718096; display: block; margin-top: 5px;">Upload a profile picture (JPG, PNG, GIF - Max 5MB)</small>
+                        <% if (student.profilepicture) { %>
+                            <img src="<%= student.profilepicture %>" alt="Current Profile" style="margin-top: 10px; max-width: 150px; border-radius: 10px; border: 2px solid #e2e8f0;">
+                        <% } %>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" value="<%= student.phone || '' %>" placeholder="Enter phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" id="dob" name="dob" value="<%= student.dob ? new Date(student.dob).toISOString().split('T')[0] : '' %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" name="gender">
+                            <option value="">Select Gender</option>
+                            <option value="male" <%= student.gender === 'male' ? 'selected' : '' %>>Male</option>
+                            <option value="female" <%= student.gender === 'female' ? 'selected' : '' %>>Female</option>
+                            <option value="other" <%= student.gender === 'other' ? 'selected' : '' %>>Other</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div class="form-section">
+                <h2>Address</h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="street">Street Address</label>
+                        <input type="text" id="street" name="street" value="<%= student.address?.street || '' %>" placeholder="Enter street address">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" value="<%= student.address?.city || '' %>" placeholder="Enter city">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state" value="<%= student.address?.state || '' %>" placeholder="Enter state">
+                    </div>
+                    <div class="form-group">
+                        <label for="pincode">Pincode</label>
+                        <input type="text" id="pincode" name="pincode" value="<%= student.address?.pincode || '' %>" placeholder="Enter pincode">
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-save">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <a href="/student/profile" class="btn btn-cancel">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 StudentHub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

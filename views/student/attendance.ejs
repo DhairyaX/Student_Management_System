@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance - Student Management System</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-card i {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        .stat-card.overall i { color: #3b82f6; }
+        .stat-card.present i { color: #10b981; }
+        .stat-card.absent i { color: #ef4444; }
+        .stat-card h3 {
+            font-size: 36px;
+            margin: 10px 0;
+            color: #1f2937;
+        }
+        .stat-card p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .calendar-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .calendar-nav {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .calendar-nav button {
+            padding: 8px 15px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .calendar-nav button:hover {
+            background: #2563eb;
+        }
+        .calendar-nav select {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .calendar-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+        .calendar-day-header {
+            text-align: center;
+            padding: 15px;
+            font-weight: 600;
+            color: #374151;
+            background: #f3f4f6;
+            border-radius: 5px;
+        }
+        .calendar-day {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 5px;
+            min-height: 80px;
+            position: relative;
+            background: white;
+        }
+        .calendar-day.empty {
+            background: #f9fafb;
+            border-color: #f3f4f6;
+        }
+        .calendar-day.present {
+            background: #d1fae5;
+            border-color: #10b981;
+        }
+        .calendar-day.absent {
+            background: #fee2e2;
+            border-color: #ef4444;
+        }
+        .calendar-day .day-number {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        .calendar-day .status-icon {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        .calendar-day.present .status-icon {
+            color: #10b981;
+        }
+        .calendar-day.absent .status-icon {
+            color: #ef4444;
+        }
+        .legend {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 5px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .legend-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            border: 2px solid;
+        }
+        .legend-box.present {
+            background: #d1fae5;
+            border-color: #10b981;
+        }
+        .legend-box.absent {
+            background: #fee2e2;
+            border-color: #ef4444;
+        }
+        .legend-box.no-record {
+            background: white;
+            border-color: #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>StudentHub</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/student/dashboard">Home</a></li>
+                <li><a href="/student/profile">Profile</a></li>
+                <li><a href="/student/marks">Marks</a></li>
+                <li><a href="/student/attendance" class="active">Attendance</a></li>
+            </ul>
+            <div class="nav-user">
+                <a href="/logout" class="logout-btn" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+                <i class="fas fa-bell"></i>
+                <% if (user.profilepicture) { %>
+                    <img src="<%= user.profilepicture %>" alt="User Avatar" class="user-avatar">
+                <% } else { %>
+                    <img src="https://ui-avatars.com/api/?name=<%= user.name %>&size=200&background=4a5568&color=fff" alt="User Avatar" class="user-avatar">
+                <% } %>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-calendar-check"></i> My Attendance</h1>
+            <p>Track your attendance records</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="subjects-section">
+        <div class="container">
+            <!-- Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card overall">
+                    <i class="fas fa-percentage"></i>
+                    <h3><%= stats.attendancePercentage %>%</h3>
+                    <p>Overall Attendance</p>
+                </div>
+                <div class="stat-card present">
+                    <i class="fas fa-check-circle"></i>
+                    <h3><%= stats.presentDays %></h3>
+                    <p>Days Present</p>
+                </div>
+                <div class="stat-card absent">
+                    <i class="fas fa-times-circle"></i>
+                    <h3><%= stats.absentDays %></h3>
+                    <p>Days Absent</p>
+                </div>
+                <div class="stat-card overall">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3><%= stats.totalDays %></h3>
+                    <p>Total Days</p>
+                </div>
+            </div>
+
+            <!-- Calendar -->
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <h2 class="calendar-title">
+                        <%= new Date(selectedYear, selectedMonth).toLocaleString('default', { month: 'long', year: 'numeric' }) %>
+                    </h2>
+                    <div class="calendar-nav">
+                        <form action="/student/attendance" method="GET" style="display: flex; gap: 10px; align-items: center;">
+                            <select name="month" id="month" onchange="this.form.submit()">
+                                <% for(let m = 0; m < 12; m++) { %>
+                                    <option value="<%= m %>" <%= selectedMonth === m ? 'selected' : '' %>>
+                                        <%= new Date(2000, m).toLocaleString('default', { month: 'long' }) %>
+                                    </option>
+                                <% } %>
+                            </select>
+                            <select name="year" id="year" onchange="this.form.submit()">
+                                <% for(let y = selectedYear - 2; y <= selectedYear + 1; y++) { %>
+                                    <option value="<%= y %>" <%= selectedYear === y ? 'selected' : '' %>><%= y %></option>
+                                <% } %>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="calendar-grid">
+                    <!-- Day headers -->
+                    <div class="calendar-day-header">Sun</div>
+                    <div class="calendar-day-header">Mon</div>
+                    <div class="calendar-day-header">Tue</div>
+                    <div class="calendar-day-header">Wed</div>
+                    <div class="calendar-day-header">Thu</div>
+                    <div class="calendar-day-header">Fri</div>
+                    <div class="calendar-day-header">Sat</div>
+
+                    <%
+                        // Calculate calendar days
+                        const firstDay = new Date(selectedYear, selectedMonth, 1);
+                        const lastDay = new Date(selectedYear, selectedMonth + 1, 0);
+                        const firstDayOfWeek = firstDay.getDay();
+                        const daysInMonth = lastDay.getDate();
+                        
+                        // Empty cells before first day
+                        for(let i = 0; i < firstDayOfWeek; i++) {
+                    %>
+                            <div class="calendar-day empty"></div>
+                    <%
+                        }
+                        
+                        // Days of the month
+                        for(let day = 1; day <= daysInMonth; day++) {
+                            // Create date key in YYYY-MM-DD format
+                            const year = selectedYear;
+                            const month = String(selectedMonth + 1).padStart(2, '0');
+                            const dayStr = String(day).padStart(2, '0');
+                            const dateKey = `${year}-${month}-${dayStr}`;
+                            const status = attendanceMap[dateKey];
+                            const cssClass = status ? status : '';
+                    %>
+                            <div class="calendar-day <%= cssClass %>">
+                                <div class="day-number"><%= day %></div>
+                                <% if (status === 'present') { %>
+                                    <div class="status-icon"><i class="fas fa-check"></i></div>
+                                <% } else if (status === 'absent') { %>
+                                    <div class="status-icon"><i class="fas fa-times"></i></div>
+                                <% } %>
+                            </div>
+                    <%
+                        }
+                    %>
+                </div>
+
+                <!-- Legend -->
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-box present"></div>
+                        <span>Present</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box absent"></div>
+                        <span>Absent</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box no-record"></div>
+                        <span>No Record</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 StudentHub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

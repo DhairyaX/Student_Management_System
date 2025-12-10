@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Teacher Management System</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>StudentHub - Teacher</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/teacher/dashboard">Dashboard</a></li>
+                <li><a href="/teacher/manage-students">Manage Students</a></li>
+                <li><a href="/teacher/add-marks">Add Marks</a></li>
+                <li><a href="/teacher/mark-attendance">Mark Attendance</a></li>
+                <li><a href="/teacher/profile" class="active">Profile</a></li>
+            </ul>
+            <div class="nav-user">
+                <a href="/logout" class="logout-btn" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+                <i class="fas fa-bell"></i>
+                <img src="https://ui-avatars.com/api/?name=Teacher&size=200&background=4a5568&color=fff" alt="User Avatar" class="user-avatar">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Success Message -->
+    <% if (successMessage) { %>
+    <div style="max-width: 1200px; margin: 80px auto 0; padding: 0 20px;">
+        <div style="background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-check-circle"></i>
+            <span><%= successMessage %></span>
+        </div>
+    </div>
+    <% } %>
+
+    <!-- Profile Header -->
+    <section class="profile-header">
+        <div class="container">
+            <div class="profile-cover"></div>
+            <div class="profile-main">
+                <div class="profile-avatar-container">
+                    <img src="https://ui-avatars.com/api/?name=Teacher&size=200&background=4a5568&color=fff" alt="Profile Picture" class="profile-avatar" id="profileAvatar">
+                    <button class="avatar-edit-btn" id="editAvatarBtn">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+                <div class="profile-info">
+                    <h1 id="teacherName"><%= user.name %></h1>
+                    <p class="student-course"><i class="fas fa-chalkboard-teacher"></i> Faculty Member</p>
+                </div>
+                <div class="profile-actions" style="display: flex; gap: 15px;">
+                    <button class="btn-edit" onclick="window.location.href='/teacher/edit-profile'">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                    <button class="btn-edit" style="background: #e53e3e;" onclick="window.location.href='/teacher/change-password'">
+                        <i class="fas fa-key"></i> Change Password
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Details -->
+    <section class="profile-content">
+        <div class="container">
+            <div class="profile-grid">
+                <!-- Personal Information -->
+                <div class="profile-section">
+                    <h2><i class="fas fa-user"></i> Personal Information</h2>
+                    <div class="info-group">
+                        <div class="info-item">
+                            <label>Full Name</label>
+                            <input type="text" id="fullName" value="<%= teacher?.name || '' %>" readonly>
+                        </div>
+                        <div class="info-item">
+                            <label>Email</label>
+                            <input type="email" id="email" value="<%= teacher?.email || '' %>" readonly>
+                        </div>
+                        <div class="info-item">
+                            <label>Phone Number</label>
+                            <input type="tel" id="phone" value="<%= teacher?.phone || '' %>" readonly>
+                        </div>
+                        <div class="info-item">
+                            <label>Date of Birth</label>
+                            <input type="date" id="dob" value="<%= teacher?.dob ? new Date(teacher.dob).toISOString().split('T')[0] : '' %>" readonly>
+                        </div>
+                        <div class="info-item">
+                            <label>Gender</label>
+                            <select id="gender" disabled>
+                                <option value="male" <%= teacher?.gender === 'male' ? 'selected' : '' %>>Male</option>
+                                <option value="female" <%= teacher?.gender === 'female' ? 'selected' : '' %>>Female</option>
+                                <option value="other" <%= teacher?.gender === 'other' ? 'selected' : '' %>>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Professional Information -->
+                <div class="profile-section">
+                    <h2><i class="fas fa-briefcase"></i> Professional Information</h2>
+                    <div class="info-group">
+                        <div class="info-item">
+                            <label>Department</label>
+                            <input type="text" id="department" value="<%= teacher?.department || '' %>" readonly>
+                        </div>
+                        <div class="info-item">
+                            <label>Designation</label>
+                            <input type="text" id="designation" value="<%= teacher?.designation || '' %>" readonly>
+                        </div>
+                        <div class="info-item">
+                            <label>Employee ID</label>
+                            <input type="text" id="employeeId" value="<%= teacher?.employee_id || '' %>" readonly>
+                        </div>
+                        <div class="info-item">
+                            <label>Date of Joining</label>
+                            <input type="date" id="dateOfJoining" value="<%= teacher?.date_of_joining ? new Date(teacher.date_of_joining).toISOString().split('T')[0] : '' %>" readonly>
+                        </div>
+                        <div class="info-item">
+                            <label>Qualification</label>
+                            <input type="text" id="qualification" value="<%= teacher?.qualification || '' %>" readonly>
+                        </div>
+                        <div class="info-item">
+                            <label>Experience</label>
+                            <input type="text" id="experience" value="<%= teacher?.experience || '' %>" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="profile-section">
+                    <h2><i class="fas fa-address-book"></i> Address</h2>
+                    <div class="info-group">
+                        <div class="info-item full-width">
+                            <label>Street</label>
+                            <input type="text" id="street" value="<%= teacher?.address?.street || '' %>" readonly>
+                        </div>
+                        <div class="info-item">
+                            <label>City</label>
+                            <input type="text" id="city" value="<%= teacher?.address?.city || '' %>" readonly>
+                        </div>
+                        <div class="info-item">
+                            <label>State</label>
+                            <input type="text" id="state" value="<%= teacher?.address?.state || '' %>" readonly>
+                        </div>
+                        <div class="info-item">
+                            <label>Pincode</label>
+                            <input type="text" id="pincode" value="<%= teacher?.address?.pincode || '' %>" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Button (hidden by default) -->
+            <div class="save-section" id="saveSection" style="display: none;">
+                <button class="btn-cancel" id="cancelBtn">Cancel</button>
+                <button class="btn-save" id="saveBtn">Save Changes</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 StudentHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/javascripts/profile.js"></script>
+</body>
+</html>

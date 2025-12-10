@@ -1,0 +1,17 @@
+***  Step to check if a user is logged in and is a student or a teacher ***
+
+router.get('/', function(req, res, next) {
+  // Check if user is logged in
+  if (req.session.user) {
+    // User is logged in, redirect based on role
+    if (req.session.user.role === 'student') {
+      res.redirect('/student/dashboard');
+    } else if (req.session.user.role === 'teacher') {
+      res.redirect('/teacher/dashboard');
+    }
+  } else {
+    // User not logged in, show login page
+    res.render('auth/login');
+  }
+});
+

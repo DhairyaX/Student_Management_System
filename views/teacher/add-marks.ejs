@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Marks - Teacher Panel</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .teacher-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 20px 20px 20px;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .page-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .page-header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+
+        .workflow-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #e2e8f0;
+        }
+
+        .step.active {
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+
+        .step.active::after {
+            color: #7b1fa2;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #e2e8f0;
+            color: #718096;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .step.active .step-number {
+            background: #7b1fa2;
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background: #48bb78;
+            color: white;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .filter-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .filter-section h2 {
+            margin: 0 0 20px 0;
+            color: #2d3748;
+            font-size: 1.3rem;
+        }
+        
+        .filter-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            align-items: end;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 600;
+        }
+        
+        .form-group select {
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group select:focus {
+            outline: none;
+            border-color: #7b1fa2;
+        }
+        
+        .btn-filter {
+            padding: 12px 25px;
+            background: #7b1fa2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-filter:hover {
+            background: #6a1b9a;
+            transform: translateY(-2px);
+        }
+
+        .student-list-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .student-list-section h2 {
+            margin: 0 0 20px 0;
+            color: #2d3748;
+        }
+
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .student-card {
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .student-card:hover {
+            border-color: #7b1fa2;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(123, 31, 162, 0.2);
+        }
+
+        .student-card .name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .student-card .details {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+        
+        .marks-entry-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .student-info-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .student-info-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+        }
+
+        .student-info-card p {
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+
+        .exam-type-selector {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .exam-type-selector label {
+            display: block;
+            margin-bottom: 10px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .exam-type-selector select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .exam-info-alert {
+            background: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .exam-info-alert.show {
+            display: block;
+        }
+
+        .exam-info-alert h4 {
+            margin: 0 0 8px 0;
+            color: #0050b3;
+        }
+
+        .exam-info-alert p {
+            margin: 5px 0;
+            color: #096dd9;
+        }
+
+        .subjects-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        .subjects-table thead {
+            background: #f7fafc;
+        }
+
+        .subjects-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #2d3748;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .subjects-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .subjects-table input[type="number"],
+        .subjects-table input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .subjects-table input:focus {
+            outline: none;
+            border-color: #7b1fa2;
+        }
+
+        .marks-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .marks-input-group input {
+            flex: 1;
+        }
+
+        .marks-input-group .plus-sign {
+            font-weight: bold;
+            color: #7b1fa2;
+        }
+
+        .total-display {
+            background: #f7fafc;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #2d3748;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .subject-name {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .subject-code {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .btn-submit {
+            padding: 12px 30px;
+            background: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            padding: 12px 30px;
+            background: #718096;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-cancel:hover {
+            background: #4a5568;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #718096;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 10px 0;
+            color: #2d3748;
+        }
+
+        .max-marks-badge {
+            background: #edf2f7;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    
+    <div class="teacher-container">
+        <div class="page-header">
+            <h1><i class="fas fa-pen-to-square"></i> Add Marks</h1>
+            <p>Select a student and add marks for all subjects at once</p>
+        </div>
+
+        <!-- Workflow Steps -->
+        <div class="workflow-steps">
+            <div class="step <%= selectedCourse && selectedSemester && selectedSection ? 'completed' : ((!selectedStudent && students.length === 0) ? 'active' : '') %>">
+                <div class="step-number">1</div>
+                <div class="step-title">Filter Students</div>
+            </div>
+            <div class="step <%= selectedStudent ? 'completed' : (students.length > 0 && !selectedStudent ? 'active' : '') %>">
+                <div class="step-number">2</div>
+                <div class="step-title">Select Student</div>
+            </div>
+            <div class="step <%= selectedStudent ? 'active' : '' %>">
+                <div class="step-number">3</div>
+                <div class="step-title">Add Marks</div>
+            </div>
+        </div>
+
+        <!-- Step 1: Filter Section -->
+        <div class="filter-section">
+            <h2><i class="fas fa-filter"></i> Filter Students</h2>
+            <form action="/teacher/add-marks" method="GET" class="filter-form">
+                <div class="form-group">
+                    <label for="course">Course</label>
+                    <select id="course" name="course" required>
+                        <option value="">Select Course</option>
+                        <% courses.forEach(c => { %>
+                            <option value="<%= c %>" <%= selectedCourse === c ? 'selected' : '' %>><%= c %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="semester">Semester</label>
+                    <select id="semester" name="semester" required>
+                        <option value="">Select Semester</option>
+                        <% semesters.forEach(s => { %>
+                            <option value="<%= s %>" <%= selectedSemester === s ? 'selected' : '' %>><%= s %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="section">Section</label>
+                    <select id="section" name="section" required>
+                        <option value="">Select Section</option>
+                        <% sections.forEach(sec => { %>
+                            <option value="<%= sec %>" <%= selectedSection === sec ? 'selected' : '' %>><%= sec %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-filter">
+                    <i class="fas fa-search"></i> Filter Students
+                </button>
+            </form>
+        </div>
+
+        <!-- Step 2: Student List -->
+        <% if (students.length > 0 && !selectedStudent) { %>
+            <div class="student-list-section">
+                <h2><i class="fas fa-users"></i> Select a Student (<%= students.length %> students found)</h2>
+                <div class="student-grid">
+                    <% students.forEach(student => { %>
+                        <a href="/teacher/add-marks?course=<%= selectedCourse %>&semester=<%= selectedSemester %>&section=<%= selectedSection %>&student_id=<%= student._id %>" class="student-card">
+                            <div class="name"><%= student.name %></div>
+                            <div class="details">
+                                <i class="fas fa-id-card"></i> <%= student.rollnumber %><br>
+                                <i class="fas fa-envelope"></i> <%= student.email %>
+                            </div>
+                        </a>
+                    <% }) %>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Step 3: Marks Entry Form -->
+        <% if (selectedStudent) { %>
+            <div class="marks-entry-section">
+                <div class="student-info-card">
+                    <h3><i class="fas fa-user-graduate"></i> <%= selectedStudent.name %></h3>
+                    <p><strong>Roll Number:</strong> <%= selectedStudent.rollnumber %></p>
+                    <p><strong>Course:</strong> <%= selectedStudent.course %> | <strong>Semester:</strong> <%= selectedStudent.semester %> | <strong>Section:</strong> <%= selectedStudent.section %></p>
+                </div>
+
+                <% if (subjects.length > 0) { %>
+                    <form action="/teacher/add-marks" method="POST">
+                        <input type="hidden" name="student_id" value="<%= selectedStudent._id %>">
+                        <input type="hidden" name="course" value="<%= selectedCourse %>">
+                        <input type="hidden" name="semester" value="<%= selectedSemester %>">
+                        <input type="hidden" name="section" value="<%= selectedSection %>">
+
+                        <div class="exam-type-selector">
+                            <label for="exam_type"><i class="fas fa-clipboard-list"></i> Select Exam Type</label>
+                            <select id="exam_type" name="exam_type" required onchange="updateMarksFields()">
+                                <option value="">Choose Exam Type</option>
+                                <% examTypes.forEach(type => { %>
+                                    <option value="<%= type %>"><%= type %></option>
+                                <% }) %>
+                            </select>
+                            
+                            <div id="exam-info-midterm" class="exam-info-alert">
+                                <h4><i class="fas fa-info-circle"></i> Mid Term Exam Structure</h4>
+                                <p><strong>Written Exam:</strong> 70 marks</p>
+                                <p><strong>Total:</strong> 70 marks</p>
+                            </div>
+                            
+                            <div id="exam-info-endterm" class="exam-info-alert">
+                                <h4><i class="fas fa-info-circle"></i> End Term Exam Structure</h4>
+                                <p><strong>Practical Lab:</strong> 30 marks</p>
+                                <p><strong>Written Exam:</strong> 70 marks</p>
+                                <p><strong>Total:</strong> 100 marks (Practical + Written)</p>
+                            </div>
+                        </div>
+
+                        <h3 style="margin-bottom: 15px;"><i class="fas fa-book"></i> Enter Marks for All Subjects</h3>
+                        
+                        <table class="subjects-table" id="marks-table">
+                            <thead>
+                                <tr>
+                                    <th>Subject Code</th>
+                                    <th>Subject Name</th>
+                                    <th id="marks-header">Marks</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% subjects.forEach(subject => { %>
+                                    <tr>
+                                        <td><span class="subject-code"><%= subject.code %></span></td>
+                                        <td><span class="subject-name"><%= subject.name %></span></td>
+                                        <td>
+                                            <!-- Mid Term: Only Written (70 marks) -->
+                                            <div class="marks-midterm" style="display: none;">
+                                                <input type="number" 
+                                                       name="subject_<%= subject._id %>_written" 
+                                                       class="written-input"
+                                                       min="0" 
+                                                       max="70" 
+                                                       placeholder="Written (max 70)"
+                                                       oninput="calculateTotal(this)">
+                                            </div>
+                                            
+                                            <!-- End Term: Practical + Written -->
+                                            <div class="marks-endterm" style="display: none;">
+                                                <div class="marks-input-group">
+                                                    <input type="number" 
+                                                           name="subject_<%= subject._id %>_practical" 
+                                                           class="practical-input"
+                                                           min="0" 
+                                                           max="30" 
+                                                           placeholder="Practical (30)"
+                                                           oninput="calculateTotal(this)">
+                                                    <span class="plus-sign">+</span>
+                                                    <input type="number" 
+                                                           name="subject_<%= subject._id %>_written" 
+                                                           class="written-input"
+                                                           min="0" 
+                                                           max="70" 
+                                                           placeholder="Written (70)"
+                                                           oninput="calculateTotal(this)">
+                                                    <span>=</span>
+                                                    <div class="total-display" data-subject="<%= subject._id %>">0</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Other Exams: Simple marks input -->
+                                            <div class="marks-other" style="display: none;">
+                                                <input type="number" 
+                                                       name="subject_<%= subject._id %>_marks" 
+                                                       class="marks-input"
+                                                       min="0" 
+                                                       max="<%= subject.max_marks %>" 
+                                                       placeholder="Enter marks (max <%= subject.max_marks %>)">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" 
+                                                   name="subject_<%= subject._id %>_remarks" 
+                                                   placeholder="Optional remarks">
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+
+                        <div class="action-buttons">
+                            <a href="/teacher/add-marks?course=<%= selectedCourse %>&semester=<%= selectedSemester %>&section=<%= selectedSection %>" class="btn-cancel">
+                                <i class="fas fa-arrow-left"></i> Back to Students
+                            </a>
+                            <button type="submit" class="btn-submit">
+                                <i class="fas fa-save"></i> Save Marks
+                            </button>
+                        </div>
+                    </form>
+                <% } else { %>
+                    <div class="empty-state">
+                        <i class="fas fa-book-open"></i>
+                        <h3>No Subjects Found</h3>
+                        <p>No subjects are configured for <%= selectedStudent.course %> - Semester <%= selectedStudent.semester %></p>
+                        <p style="margin-top: 20px;">
+                            <a href="/teacher/add-marks?course=<%= selectedCourse %>&semester=<%= selectedSemester %>&section=<%= selectedSection %>" class="btn-cancel">
+                                <i class="fas fa-arrow-left"></i> Back to Students
+                            </a>
+                        </p>
+                    </div>
+                <% } %>
+            </div>
+        <% } %>
+
+        <!-- Initial State -->
+        <% if (students.length === 0 && !selectedStudent) { %>
+            <div class="empty-state" style="background: white; padding: 60px 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <i class="fas fa-filter"></i>
+                <h3>Select Filters to Get Started</h3>
+                <p>Choose Course, Semester, and Section to see the list of students</p>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        function updateMarksFields() {
+            const examType = document.getElementById('exam_type').value;
+            const midtermInfo = document.getElementById('exam-info-midterm');
+            const endtermInfo = document.getElementById('exam-info-endterm');
+            const marksHeader = document.getElementById('marks-header');
+            
+            // Hide all info alerts
+            midtermInfo.classList.remove('show');
+            endtermInfo.classList.remove('show');
+            
+            // Hide all marks input types and disable inputs
+            document.querySelectorAll('.marks-midterm').forEach(el => {
+                el.style.display = 'none';
+                el.querySelectorAll('input').forEach(input => input.disabled = true);
+            });
+            document.querySelectorAll('.marks-endterm').forEach(el => {
+                el.style.display = 'none';
+                el.querySelectorAll('input').forEach(input => input.disabled = true);
+            });
+            document.querySelectorAll('.marks-other').forEach(el => {
+                el.style.display = 'none';
+                el.querySelectorAll('input').forEach(input => input.disabled = true);
+            });
+            
+            // Clear all inputs
+            document.querySelectorAll('.practical-input, .written-input, .marks-input').forEach(input => {
+                input.value = '';
+                input.removeAttribute('required');
+            });
+            
+            // Show appropriate fields based on exam type and enable inputs
+            if (examType === 'Mid Term') {
+                midtermInfo.classList.add('show');
+                marksHeader.textContent = 'Written Exam (70 marks)';
+                document.querySelectorAll('.marks-midterm').forEach(el => {
+                    el.style.display = 'block';
+                    el.querySelectorAll('input').forEach(input => input.disabled = false);
+                });
+            } else if (examType === 'End Term') {
+                endtermInfo.classList.add('show');
+                marksHeader.textContent = 'Practical (30) + Written (70)';
+                document.querySelectorAll('.marks-endterm').forEach(el => {
+                    el.style.display = 'block';
+                    el.querySelectorAll('input').forEach(input => input.disabled = false);
+                });
+            } else if (examType) {
+                marksHeader.textContent = 'Marks Obtained';
+                document.querySelectorAll('.marks-other').forEach(el => {
+                    el.style.display = 'block';
+                    el.querySelectorAll('input').forEach(input => input.disabled = false);
+                });
+            } else {
+                marksHeader.textContent = 'Marks';
+            }
+        }
+        
+        function calculateTotal(input) {
+            const row = input.closest('tr');
+            const practicalInput = row.querySelector('.practical-input');
+            const writtenInput = row.querySelector('.written-input');
+            const totalDisplay = row.querySelector('.total-display');
+            
+            if (totalDisplay && practicalInput && writtenInput) {
+                const practical = parseFloat(practicalInput.value) || 0;
+                const written = parseFloat(writtenInput.value) || 0;
+                const total = practical + written;
+                totalDisplay.textContent = total;
+                
+                // Validate maximums
+                if (practical > 30) {
+                    practicalInput.value = 30;
+                    totalDisplay.textContent = 30 + written;
+                }
+                if (written > 70) {
+                    writtenInput.value = 70;
+                    totalDisplay.textContent = practical + 70;
+                }
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateMarksFields();
+        });
+    </script>
+</body>
+</html>

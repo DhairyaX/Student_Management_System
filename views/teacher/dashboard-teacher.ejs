@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - Student Management System</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>StudentHub - Teacher</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/teacher/dashboard" class="active">Dashboard</a></li>
+                <li><a href="/teacher/add-marks">Add Marks</a></li>
+                <li><a href="/teacher/mark-attendance">Mark Attendance</a></li>
+                <li><a href="/teacher/profile">Profile</a></li>
+            </ul>
+            <div class="nav-user">
+                <a href="/logout" class="logout-btn" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+                <i class="fas fa-bell"></i>
+                <img src="https://ui-avatars.com/api/?name=Teacher&size=200&background=4a5568&color=fff" alt="User Avatar" class="user-avatar">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Teacher Dashboard</h1>
+            <p>Manage marks and attendance efficiently</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Cards -->
+    <section class="dashboard">
+        <div class="container">
+            <h2 class="section-title">Quick Access</h2>
+            <div class="cards-grid">
+                <div class="dashboard-card">
+                    <div class="card-icon marks-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h3>Add Marks</h3>
+                    <p>Enter and update student marks</p>
+                    <a href="/teacher/add-marks" class="card-link">Add Marks <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon attendance-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Mark Attendance</h3>
+                    <p>Record daily student attendance</p>
+                    <a href="/teacher/mark-attendance" class="card-link">Mark Attendance <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon payments-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Reports</h3>
+                    <p>View comprehensive student reports</p>
+                    <a href="/teacher/reports" class="card-link">View Reports <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalStudents">150</div>
+                    <div class="stat-label">Total Students</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="presentToday">142</div>
+                    <div class="stat-label">Present Today</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="classAverage">78%</div>
+                    <div class="stat-label">Class Average</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="pendingTasks">5</div>
+                    <div class="stat-label">Pending Tasks</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Activity -->
+    <section class="activity">
+        <div class="container">
+            <h2 class="section-title">Recent Activity</h2>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <i class="fas fa-check-circle activity-icon success"></i>
+                    <div class="activity-content">
+                        <h4>Attendance Marked</h4>
+                        <p>Class 6A attendance marked successfully</p>
+                        <span class="activity-time">1 hour ago</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <i class="fas fa-book activity-icon info"></i>
+                    <div class="activity-content">
+                        <h4>Marks Updated</h4>
+                        <p>Mathematics test marks added for 6B</p>
+                        <span class="activity-time">3 hours ago</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <i class="fas fa-user-plus activity-icon warning"></i>
+                    <div class="activity-content">
+                        <h4>New Student Added</h4>
+                        <p>John Smith enrolled in class 6A</p>
+                        <span class="activity-time">1 day ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 StudentHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/javascripts/home.js"></script>
+</body>
+</html>

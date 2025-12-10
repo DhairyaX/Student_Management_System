@@ -1,0 +1,23 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>StudentHub - Teacher</span>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="/teacher/dashboard">Dashboard</a></li>
+            <li><a href="/teacher/manage-students">Students</a></li>
+            <li><a href="/teacher/manage-subjects">Subjects</a></li>
+            <li><a href="/teacher/add-marks">Add Marks</a></li>
+            <li><a href="/teacher/view-marks">View Marks</a></li>
+            <li><a href="/teacher/mark-attendance">Attendance</a></li>
+            <li><a href="/teacher/profile">Profile</a></li>
+        </ul>
+        <div class="nav-user">
+            <a href="/logout" class="logout-btn" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+            <span style="color: #4a5568; font-weight: 600;"><%= user.name %></span>
+        </div>
+    </div>
+</nav>

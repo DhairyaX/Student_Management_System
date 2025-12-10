@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments - Student Management System</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/payments.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>StudentHub</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/student/dashboard">Home</a></li>
+                <li><a href="/student/profile">Profile</a></li>
+                <li><a href="/student/marks">Marks</a></li>
+                <li><a href="/student/payments" class="active">Payments</a></li>
+                <li><a href="/student/attendance">Attendance</a></li>
+            </ul>
+            <div class="nav-user">
+                <a href="/logout" class="logout-btn" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+                <i class="fas fa-bell"></i>
+                <img src="/images/default-avatar.jpg" alt="User Avatar" class="user-avatar">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-credit-card"></i> Fee Management</h1>
+            <p>Manage your payments and view transaction history</p>
+        </div>
+    </section>
+
+    <!-- Payment Summary -->
+    <section class="summary">
+        <div class="container">
+            <div class="summary-grid">
+                <div class="summary-card total">
+                    <div class="summary-icon">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <div class="summary-content">
+                        <h3 id="totalFees">₹60,000</h3>
+                        <p>Total Fees</p>
+                    </div>
+                </div>
+                <div class="summary-card paid">
+                    <div class="summary-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="summary-content">
+                        <h3 id="paidAmount">₹45,000</h3>
+                        <p>Amount Paid</p>
+                    </div>
+                </div>
+                <div class="summary-card pending">
+                    <div class="summary-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="summary-content">
+                        <h3 id="pendingAmount">₹15,000</h3>
+                        <p>Amount Pending</p>
+                    </div>
+                </div>
+                <div class="summary-card due">
+                    <div class="summary-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="summary-content">
+                        <h3 id="nextDueDate">Jan 15, 2025</h3>
+                        <p>Next Due Date</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pending Payments -->
+    <section class="pending-section">
+        <div class="container">
+            <h2 class="section-title">Pending Payments</h2>
+            <div class="pending-grid" id="pendingPayments">
+                <div class="payment-card pending-card">
+                    <div class="card-header">
+                        <h3>Semester Fee - Spring 2025</h3>
+                        <span class="badge urgent">Urgent</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="fee-details">
+                            <div class="detail-row">
+                                <span>Amount:</span>
+                                <strong>₹15,000</strong>
+                            </div>
+                            <div class="detail-row">
+                                <span>Due Date:</span>
+                                <strong class="text-danger">Jan 15, 2025</strong>
+                            </div>
+                            <div class="detail-row">
+                                <span>Late Fee:</span>
+                                <strong>₹500 (after due date)</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-pay-now" onclick="openPaymentModal('SEM-2025-S', 15000)">
+                            <i class="fas fa-credit-card"></i> Pay Now
+                        </button>
+                        <button class="btn-details" onclick="viewDetails('SEM-2025-S')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+
+                <div class="payment-card pending-card">
+                    <div class="card-header">
+                        <h3>Library Fee</h3>
+                        <span class="badge normal">Normal</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="fee-details">
+                            <div class="detail-row">
+                                <span>Amount:</span>
+                                <strong>₹1,000</strong>
+                            </div>
+                            <div class="detail-row">
+                                <span>Due Date:</span>
+                                <strong>Jan 20, 2025</strong>
+                            </div>
+                            <div class="detail-row">
+                                <span>Late Fee:</span>
+                                <strong>₹100 (after due date)</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-pay-now" onclick="openPaymentModal('LIB-2025', 1000)">
+                            <i class="fas fa-credit-card"></i> Pay Now
+                        </button>
+                        <button class="btn-details" onclick="viewDetails('LIB-2025')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment History -->
+    <section class="history-section">
+        <div class="container">
+            <div class="history-header">
+                <h2 class="section-title">Payment History</h2>
+                <div class="filter-controls">
+                    <select id="yearFilter">
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                    </select>
+                    <button class="btn-download" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download Statement
+                    </button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="history-table" id="historyTable">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Payment Method</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Receipt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#TXN123456</td>
+                            <td>Dec 01, 2024</td>
+                            <td>Semester Fee - Fall 2024</td>
+                            <td><i class="fas fa-credit-card"></i> Credit Card</td>
+                            <td>₹15,000</td>
+                            <td><span class="status success">Success</span></td>
+                            <td><button class="btn-receipt" onclick="downloadReceipt('TXN123456')"><i class="fas fa-file-pdf"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>#TXN123455</td>
+                            <td>Nov 15, 2024</td>
+                            <td>Exam Fee</td>
+                            <td><i class="fas fa-university"></i> Net Banking</td>
+                            <td>₹2,000</td>
+                            <td><span class="status success">Success</span></td>
+                            <td><button class="btn-receipt" onclick="downloadReceipt('TXN123455')"><i class="fas fa-file-pdf"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>#TXN123454</td>
+                            <td>Oct 20, 2024</td>
+                            <td>Sports Fee</td>
+                            <td><i class="fas fa-mobile-alt"></i> UPI</td>
+                            <td>₹1,500</td>
+                            <td><span class="status success">Success</span></td>
+                            <td><button class="btn-receipt" onclick="downloadReceipt('TXN123454')"><i class="fas fa-file-pdf"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>#TXN123453</td>
+                            <td>Sep 10, 2024</td>
+                            <td>Laboratory Fee</td>
+                            <td><i class="fas fa-credit-card"></i> Debit Card</td>
+                            <td>₹3,500</td>
+                            <td><span class="status success">Success</span></td>
+                            <td><button class="btn-receipt" onclick="downloadReceipt('TXN123453')"><i class="fas fa-file-pdf"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>#TXN123452</td>
+                            <td>Aug 05, 2024</td>
+                            <td>Semester Fee - Summer 2024</td>
+                            <td><i class="fas fa-university"></i> Net Banking</td>
+                            <td>₹15,000</td>
+                            <td><span class="status success">Success</span></td>
+                            <td><button class="btn-receipt" onclick="downloadReceipt('TXN123452')"><i class="fas fa-file-pdf"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closePaymentModal()">&times;</span>
+            <h2><i class="fas fa-credit-card"></i> Complete Payment</h2>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label>Payment ID</label>
+                    <input type="text" id="paymentId" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Amount to Pay</label>
+                    <input type="text" id="paymentAmount" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Select Method</option>
+                        <option value="card">Credit/Debit Card</option>
+                        <option value="netbanking">Net Banking</option>
+                        <option value="upi">UPI</option>
+                        <option value="wallet">Wallet</option>
+                    </select>
+                </div>
+                <div class="form-group" id="cardDetails" style="display: none;">
+                    <label>Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+                <div class="form-row" id="cardExtra" style="display: none;">
+                    <div class="form-group">
+                        <label>Expiry Date</label>
+                        <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="text" id="cvv" placeholder="123" maxlength="3">
+                    </div>
+                </div>
+                <div class="form-group" id="upiDetails" style="display: none;">
+                    <label>UPI ID</label>
+                    <input type="text" id="upiId" placeholder="yourname@upi">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closePaymentModal()">Cancel</button>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-lock"></i> Pay Securely
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 StudentHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/javascripts/payments.js"></script>
+</body>
+</html>

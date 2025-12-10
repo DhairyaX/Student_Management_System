@@ -1,0 +1,502 @@
+/* Payments Page Styles */
+
+/* Page Header */
+.page-header {
+    background: #4a5568;
+    color: white;
+    padding: 60px 20px;
+    margin-top: 70px;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.page-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Summary Section */
+.summary {
+    padding: 50px 20px;
+    background: #f8f9fa;
+    margin-top: -30px;
+}
+
+.summary-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.summary-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.3s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.summary-card.total .summary-icon {
+    background: #4a5568;
+}
+
+.summary-card.paid .summary-icon {
+    background: #38a169;
+}
+
+.summary-card.pending .summary-icon {
+    background: #d69e2e;
+}
+
+.summary-card.due .summary-icon {
+    background: #e53e3e;
+}
+
+.summary-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+}
+
+.summary-content h3 {
+    font-size: 1.8rem;
+    color: #2d3748;
+    margin-bottom: 5px;
+}
+
+.summary-content p {
+    color: #718096;
+    font-size: 0.95rem;
+}
+
+/* Pending Payments Section */
+.pending-section {
+    padding: 50px 20px;
+    background: white;
+}
+
+.pending-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.payment-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.payment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    padding: 25px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h3 {
+    font-size: 1.2rem;
+    color: #2d3748;
+}
+
+.badge {
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.badge.urgent {
+    background: #fee;
+    color: #dc3545;
+}
+
+.badge.normal {
+    background: #e7f3ff;
+    color: #0066cc;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+.fee-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-row span {
+    color: #718096;
+}
+
+.detail-row strong {
+    color: #2d3748;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.card-footer {
+    padding: 25px;
+    background: #f8f9fa;
+    display: flex;
+    gap: 15px;
+}
+
+.btn-pay-now {
+    flex: 1;
+    padding: 12px 20px;
+    background: #4a5568;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-pay-now:hover {
+    background: #2d3748;
+    transform: translateY(-2px);
+}
+
+.btn-details {
+    padding: 12px 20px;
+    background: white;
+    color: #4a5568;
+    border: 2px solid #4a5568;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-details:hover {
+    background: #4a5568;
+    color: white;
+}
+
+/* History Section */
+.history-section {
+    padding: 50px 20px;
+    background: #f8f9fa;
+}
+
+.history-header {
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.filter-controls select {
+    padding: 10px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-download {
+    padding: 10px 25px;
+    background: #4a5568;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-download:hover {
+    background: #2d3748;
+    transform: translateY(-2px);
+}
+
+.table-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.history-table thead {
+    background: #4a5568;
+    color: white;
+}
+
+.history-table th {
+    padding: 18px 15px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.history-table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.history-table tbody tr:hover {
+    background: #f7fafc;
+}
+
+.history-table td {
+    padding: 18px 15px;
+    color: #2d3748;
+}
+
+.status.success {
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #d4edda;
+    color: #28a745;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+.btn-receipt {
+    padding: 8px 12px;
+    background: #4a5568;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-receipt:hover {
+    background: #2d3748;
+}
+
+/* Payment Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #718096;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+    color: #2d3748;
+}
+
+.modal-content h2 {
+    font-size: 1.8rem;
+    color: #2d3748;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4a5568;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-cancel {
+    flex: 1;
+    padding: 12px 20px;
+    background: #e2e8f0;
+    color: #4a5568;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background: #cbd5e0;
+}
+
+.btn-submit {
+    flex: 1;
+    padding: 12px 20px;
+    background: #48bb78;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+    background: #38a169;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .pending-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .history-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    .history-table {
+        min-width: 800px;
+    }
+    
+    .modal-content {
+        padding: 30px 20px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

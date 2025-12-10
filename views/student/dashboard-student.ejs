@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Student Management System</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>StudentHub</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/student/dashboard" class="active">Home</a></li>
+                <li><a href="/student/profile">Profile</a></li>
+                <li><a href="/student/marks">Marks</a></li>
+                <li><a href="/student/attendance">Attendance</a></li>
+            </ul>
+            <div class="nav-user">
+                <a href="/logout" class="logout-btn" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+                <i class="fas fa-bell"></i>
+                <% if (student && student.profilepicture) { %>
+                    <img src="<%= student.profilepicture %>" alt="User Avatar" class="user-avatar">
+                <% } else { %>
+                    <img src="/images/default-avatar.jpg" alt="User Avatar" class="user-avatar">
+                <% } %>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to StudentHub</h1>
+            <p>Your one-stop solution for managing academics, attendance, and payments</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Cards -->
+    <section class="dashboard">
+        <div class="container">
+            <h2 class="section-title">Quick Access</h2>
+            <div class="cards-grid">
+                <div class="dashboard-card">
+                    <div class="card-icon profile-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Profile</h3>
+                    <p>View and manage your personal information</p>
+                    <a href="/student/profile" class="card-link">View Profile <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon marks-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Marks</h3>
+                    <p>Check your academic performance and grades</p>
+                    <a href="/student/marks" class="card-link">View Marks <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon attendance-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Attendance</h3>
+                    <p>Track your attendance records</p>
+                    <a href="/student/attendance" class="card-link">View Attendance <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" id="attendancePercent">85%</div>
+                    <div class="stat-label">Attendance</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="averageMarks">78</div>
+                    <div class="stat-label">Average Marks</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="pendingPayments">2</div>
+                    <div class="stat-label">Pending Payments</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="coursesEnrolled">6</div>
+                    <div class="stat-label">Courses Enrolled</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Activity -->
+    <section class="activity">
+        <div class="container">
+            <h2 class="section-title">Recent Activity</h2>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <i class="fas fa-check-circle activity-icon success"></i>
+                    <div class="activity-content">
+                        <h4>Payment Successful</h4>
+                        <p>Semester fee payment completed - ₹15,000</p>
+                        <span class="activity-time">2 hours ago</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <i class="fas fa-book activity-icon info"></i>
+                    <div class="activity-content">
+                        <h4>New Marks Updated</h4>
+                        <p>Mathematics Mid-term results published</p>
+                        <span class="activity-time">1 day ago</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <i class="fas fa-calendar activity-icon warning"></i>
+                    <div class="activity-content">
+                        <h4>Attendance Warning</h4>
+                        <p>Your attendance in Physics is below 75%</p>
+                        <span class="activity-time">3 days ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 StudentHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/javascripts/home.js"></script>
+</body>
+</html>
