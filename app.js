@@ -31,13 +31,14 @@ mongoose.connect(mongoURI)
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
 
-// Session configuration
+// Session configuration - using connect-mongo v6 syntax
 app.use(session({
   secret: process.env.SESSION_SECRET || 'keyboard-cat-default-change-in-production',
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/student_management'
+    client: mongoose.connection.getClient(),
+    touchAfter: 24 * 3600
   }),
   cookie: {
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
